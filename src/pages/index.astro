@@ -160,6 +160,8 @@ const heroSlides = [
   },
 ] as const;
 
+const nosotrosFrames = ["/ima1.png", "/ima2.png", "/ima3.png", "/ima4.png", "/ima5.png"] as const;
+
 const matrixAlphabet = ["0", "1", "F", "E", "M", "A", "X"] as const;
 const matrixCells = Array.from({ length: 63 }, (_, index) => ({
   char: matrixAlphabet[(index * 5 + Math.floor(index / 9) * 3) % matrixAlphabet.length],
@@ -396,6 +398,138 @@ const matrixCells = Array.from({ length: 63 }, (_, index) => ({
     </div>
   </Hero>
 
+  <!-- NOSOTROS -->
+  <section id="nosotros" class="bg-carbon relative overflow-hidden text-white">
+    <div class="pointer-events-none absolute inset-0">
+      <div class="bg-verde/10 absolute -top-32 -right-20 h-96 w-96 rounded-full blur-3xl"></div>
+      <div class="bg-naranja/8 absolute -bottom-40 -left-20 h-96 w-96 rounded-full blur-3xl"></div>
+    </div>
+
+    <div class="relative mx-auto max-w-6xl px-5 py-20 sm:py-24">
+      <header
+        class="relative overflow-hidden rounded-[2rem] bg-white/[0.045] px-7 py-9 shadow-[0_24px_70px_rgba(0,0,0,0.24)] ring-1 ring-white/10 sm:px-10 sm:py-11 lg:px-12"
+      >
+        <div class="from-naranja via-verde to-naranja absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r">
+        </div>
+        <div
+          class="bg-naranja/10 pointer-events-none absolute -top-24 -right-20 h-64 w-64 rounded-full blur-3xl"
+        >
+        </div>
+
+        <div class="relative">
+          <div class="flex flex-wrap items-start justify-between gap-5">
+            <div>
+              <p class="text-verde text-xs font-bold tracking-[0.22em] uppercase">Quiénes somos</p>
+              <h2 class="mt-3 text-3xl leading-tight font-bold sm:text-4xl">Acerca de nosotros</h2>
+            </div>
+            <span
+              class="bg-verde/10 text-verde hidden rounded-full px-4 py-2 text-xs font-bold tracking-[0.16em] uppercase sm:inline-flex"
+            >
+              FEMAXX S.A.C.
+            </span>
+          </div>
+
+          <p class="mt-8 text-xl leading-relaxed font-semibold text-white sm:text-2xl">
+            <span class="text-naranja">Somos FEMAXX S.A.C.</span>, la empresa que desarrolla FeMax para
+            simplificar la gestión diaria de los negocios.
+          </p>
+          <p class="mt-5 max-w-5xl leading-relaxed text-slate-300">
+            Creamos una plataforma en la nube que conecta sucursales, inventario, compras, ventas y
+            facturación electrónica. Convertimos procesos complejos en herramientas claras, seguras y fáciles
+            de usar.
+          </p>
+        </div>
+      </header>
+
+      <div class="mt-12 grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:items-center lg:gap-16">
+        <div class="flex flex-col justify-center">
+          <article>
+            <p class="text-naranja text-xs font-bold tracking-[0.2em] uppercase">Nuestro propósito</p>
+            <h3 class="text-naranja mt-2 text-3xl font-medium sm:text-4xl">Misión</h3>
+            <p class="mt-5 text-base leading-relaxed text-slate-200 sm:text-lg">
+              Facilitar la gestión empresarial mediante tecnología accesible, confiable y conectada, ayudando
+              a cada empresa a trabajar con mayor orden, control y eficiencia.
+            </p>
+          </article>
+
+          <div class="my-9 h-px bg-white/10"></div>
+
+          <article>
+            <p class="text-verde text-xs font-bold tracking-[0.2em] uppercase">Hacia dónde vamos</p>
+            <h3 class="text-verde mt-2 text-3xl font-medium sm:text-4xl">Visión</h3>
+            <p class="mt-5 text-base leading-relaxed text-slate-200 sm:text-lg">
+              Ser una plataforma referente en gestión empresarial y facturación electrónica, reconocida por su
+              simplicidad, seguridad y capacidad de acompañar el crecimiento de sus clientes.
+            </p>
+          </article>
+        </div>
+
+        <figure class="w-full justify-self-end">
+          <div
+            class="relative aspect-video w-full overflow-hidden rounded-3xl bg-white/[0.04] shadow-[0_24px_70px_rgba(0,0,0,0.28)] ring-1 ring-white/10"
+            data-nosotros-gallery
+          >
+            {
+              nosotrosFrames.map((src, frameIndex) => (
+                <img
+                  src={src}
+                  alt=""
+                  aria-hidden="true"
+                  data-nosotros-frame
+                  loading="eager"
+                  decoding="async"
+                  class:list={[
+                    "absolute inset-0 h-full w-full object-cover transition-[opacity,transform] duration-700 ease-out",
+                    frameIndex === 0 ? "scale-100 opacity-100" : "scale-[1.02] opacity-0",
+                  ]}
+                />
+              ))
+            }
+
+            <div
+              class="absolute top-5 right-5 z-10 flex items-center gap-2"
+              aria-label="Progreso de la galería"
+            >
+              {
+                nosotrosFrames.map((_, frameIndex) => (
+                  <span
+                    data-nosotros-frame-dot
+                    class:list={[
+                      "block h-1.5 rounded-full transition-all duration-500",
+                      frameIndex === 0 ? "bg-verde w-5" : "w-1.5 bg-white/35",
+                    ]}
+                  />
+                ))
+              }
+            </div>
+          </div>
+
+          <figcaption class="mt-4 flex flex-wrap items-baseline gap-x-3 gap-y-1 px-1">
+            <span class="text-verde text-xs font-bold tracking-[0.2em] uppercase">FeMax en acción</span>
+            <span class="text-sm font-semibold text-slate-200 sm:text-base">
+              Tecnología que acompaña el crecimiento de tu empresa
+            </span>
+          </figcaption>
+        </figure>
+      </div>
+
+      <div class="mt-12 border-t border-white/10 pt-8">
+        <div class="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
+          <div>
+            <p class="text-verde text-xs font-bold tracking-[0.2em] uppercase">Cómo trabajamos</p>
+            <h3 class="mt-2 text-2xl font-bold">Nuestros valores</h3>
+          </div>
+          <ul class="flex flex-wrap gap-2.5">
+            <li class="rounded-full bg-white/8 px-4 py-2.5 text-sm font-semibold">Innovación práctica</li>
+            <li class="rounded-full bg-white/8 px-4 py-2.5 text-sm font-semibold">Confianza</li>
+            <li class="rounded-full bg-white/8 px-4 py-2.5 text-sm font-semibold">Seguridad</li>
+            <li class="rounded-full bg-white/8 px-4 py-2.5 text-sm font-semibold">Cercanía</li>
+            <li class="rounded-full bg-white/8 px-4 py-2.5 text-sm font-semibold">Mejora continua</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
   <!-- FUNCIONALIDADES -->
   <section id="funcionalidades" class="mx-auto max-w-6xl px-5 py-20">
     <p class="text-naranja-oscuro text-center text-xs font-bold tracking-widest uppercase">Funcionalidades</p>
@@ -499,6 +633,59 @@ const matrixCells = Array.from({ length: 63 }, (_, index) => ({
 
       render();
       start();
+    }
+
+    const nosotrosGallery = document.querySelector<HTMLElement>("[data-nosotros-gallery]");
+    const nosotrosFrames = Array.from(document.querySelectorAll<HTMLImageElement>("[data-nosotros-frame]"));
+    const nosotrosDots = Array.from(document.querySelectorAll<HTMLElement>("[data-nosotros-frame-dot]"));
+
+    if (nosotrosGallery && nosotrosFrames.length && nosotrosDots.length) {
+      let frameIndex = 0;
+      let frameTimer: number | undefined;
+
+      const showFrame = (nextIndex: number) => {
+        frameIndex = nextIndex;
+        nosotrosFrames.forEach((frame, index) => {
+          const active = index === frameIndex;
+          frame.classList.toggle("opacity-100", active);
+          frame.classList.toggle("scale-100", active);
+          frame.classList.toggle("opacity-0", !active);
+          frame.classList.toggle("scale-[1.02]", !active);
+        });
+        nosotrosDots.forEach((dot, index) => {
+          const active = index === frameIndex;
+          dot.className = active
+            ? "block h-1.5 w-5 rounded-full bg-verde transition-all duration-500"
+            : "block h-1.5 w-1.5 rounded-full bg-white/35 transition-all duration-500";
+        });
+      };
+
+      const stopFrames = () => {
+        if (frameTimer !== undefined) {
+          window.clearInterval(frameTimer);
+          frameTimer = undefined;
+        }
+      };
+
+      const startFrames = () => {
+        stopFrames();
+        if (document.hidden) return;
+        frameTimer = window.setInterval(() => showFrame((frameIndex + 1) % nosotrosFrames.length), 3000);
+      };
+
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        nosotrosFrames.forEach((frame) => {
+          frame.classList.remove("transition-[opacity,transform]", "duration-700", "ease-out");
+        });
+      }
+
+      document.addEventListener("visibilitychange", () => {
+        if (document.hidden) stopFrames();
+        else startFrames();
+      });
+
+      showFrame(0);
+      startFrames();
     }
   </script>
 

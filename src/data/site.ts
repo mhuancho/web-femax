@@ -20,7 +20,8 @@ export const documento = {
 
 /** Anclas de la landing usadas por el header y el menú móvil. */
 export const seccionesNav = [
-  { href: "/#funcionalidades", label: "Funcionalidades" },
+  { href: "/#nosotros", label: "Nosotros" },
+  { href: "/#funcionalidades", label: "Soluciones" },
   { href: "/#planes", label: "Planes" },
   { href: "/#seguridad", label: "Seguridad" },
   { href: "/#contacto", label: "Contacto" },
