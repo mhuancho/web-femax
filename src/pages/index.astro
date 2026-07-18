@@ -129,6 +129,42 @@ const contacto = [
     icono: "M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z",
   },
 ] as const;
+
+const heroSlides = [
+  {
+    variant: "intro",
+    badge: "Plataforma SaaS · 100% en la nube",
+    titulo: "Gestiona tu empresa y factura electrónicamente en un solo lugar",
+    descripcion:
+      "FeMax centraliza tus sucursales, inventario, compras, punto de venta y la emisión de comprobantes electrónicos conforme a la normativa de la SUNAT — sin servidores ni instalaciones locales.",
+  },
+  {
+    variant: "promo",
+    badge: "Promoción de lanzamiento",
+    titulo: "Empieza acompañado desde el primer día.",
+    descripcion:
+      "Preparamos la configuración inicial de FeMax y guiamos a tu equipo para que la puesta en marcha sea simple, ordenada y sin detener tu operación.",
+    puntos: ["Configuración inicial", "Usuarios y permisos", "Capacitación básica"],
+  },
+  {
+    variant: "product",
+    badge: "Producto destacado",
+    titulo: "Toda tu operación conectada en un solo entorno.",
+    descripcion:
+      "Consulta ventas, inventario y comprobantes desde cualquier lugar. La información se mantiene centralizada para que puedas decidir con mayor rapidez.",
+    puntos: [
+      "Ventas y stock en tiempo real",
+      "Sucursales y usuarios por rol",
+      "Facturación electrónica SUNAT",
+    ],
+  },
+] as const;
+
+const matrixAlphabet = ["0", "1", "F", "E", "M", "A", "X"] as const;
+const matrixCells = Array.from({ length: 63 }, (_, index) => ({
+  char: matrixAlphabet[(index * 5 + Math.floor(index / 9) * 3) % matrixAlphabet.length],
+  delay: (index * 83) % 2400,
+}));
 ---
 
 <BaseLayout
@@ -136,57 +172,227 @@ const contacto = [
   description="FeMax es la plataforma SaaS de FEMAXX S.A.C. para gestionar tu empresa: sucursales, inventario, compras, punto de venta y facturación electrónica conforme a la SUNAT."
 >
   <!-- HERO -->
-  <Hero contenedor="grid max-w-6xl items-center gap-12 px-5 py-20 sm:py-24 lg:grid-cols-2">
-    <div>
-      <p
-        class="mb-5 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-1.5 text-xs font-semibold tracking-wide text-gray-300"
-      >
-        <span class="bg-verde h-1.5 w-1.5 animate-pulse rounded-full"></span>
-        Plataforma SaaS · 100% en la nube
-      </p>
-      <h1 class="text-4xl leading-tight font-bold sm:text-5xl">
-        Gestiona tu empresa y <span class="text-naranja">factura electrónicamente</span> en un solo lugar
-      </h1>
-      <p class="mt-5 max-w-xl text-lg leading-relaxed text-gray-400">
-        FeMax centraliza tus sucursales, inventario, compras, punto de venta y la emisión de comprobantes
-        electrónicos conforme a la normativa de la SUNAT — sin servidores ni instalaciones locales.
-      </p>
-      <div class="mt-8 flex flex-wrap gap-3">
-        <a
-          href="#planes"
-          class="bg-naranja shadow-naranja/25 hover:bg-naranja-oscuro rounded-xl px-6 py-3 font-semibold text-white shadow-lg transition-all hover:-translate-y-0.5"
-        >
-          Ver planes
-        </a>
-        <a
-          href="#contacto"
-          class="rounded-xl border border-white/20 bg-white/5 px-6 py-3 font-semibold text-white transition-colors hover:bg-white/10"
-        >
-          Contactar
-        </a>
+  <Hero contenedor="max-w-6xl px-5 py-0">
+    <div class="relative" data-hero-panel>
+      <div>
+        <div class="grid w-full">
+          {
+            heroSlides.map((slide, slideIndex) => (
+              <article
+                data-hero-slide
+                aria-hidden={slideIndex === 0 ? "false" : "true"}
+                class:list={[
+                  "w-full min-w-0 transition-[opacity,transform] duration-500 ease-out [grid-area:1/1]",
+                  slideIndex === 0
+                    ? "translate-x-0 opacity-100"
+                    : "pointer-events-none invisible translate-x-8 opacity-0",
+                ]}
+              >
+                <div class="relative grid min-h-[555px] items-center gap-10 py-12 lg:grid-cols-[1.08fr_0.92fr] lg:py-10">
+                  <div>
+                    <p class="inline-flex items-center gap-2 rounded-full bg-white/[0.06] px-4 py-1.5 text-xs font-semibold tracking-wide text-gray-300">
+                      <span class="bg-verde h-1.5 w-1.5 rounded-full" />
+                      {slide.badge}
+                    </p>
+
+                    {slide.variant === "intro" ? (
+                      <h1 class="mt-6 max-w-2xl text-4xl leading-[1.12] font-bold text-white sm:text-5xl lg:text-[3.4rem]">
+                        Gestiona tu empresa y <span class="text-naranja">factura electrónicamente</span> en un
+                        solo lugar
+                      </h1>
+                    ) : (
+                      <h2 class="mt-6 max-w-2xl text-4xl leading-[1.12] font-bold text-white sm:text-5xl">
+                        {slide.titulo}
+                      </h2>
+                    )}
+
+                    <p class="mt-5 max-w-xl text-base leading-relaxed text-gray-300 sm:text-lg">
+                      {slide.descripcion}
+                    </p>
+
+                    {"puntos" in slide && (
+                      <ul class="mt-6 grid gap-3 text-sm text-gray-200 sm:grid-cols-2 lg:grid-cols-1">
+                        {slide.puntos.map((punto) => (
+                          <li class="flex items-center gap-3">
+                            <span class="bg-verde/15 text-verde flex h-7 w-7 shrink-0 items-center justify-center rounded-full">
+                              <svg
+                                class="h-3.5 w-3.5"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                stroke-width="2.5"
+                              >
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m5 13 4 4L19 7" />
+                              </svg>
+                            </span>
+                            {punto}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+
+                    <div class="mt-8 flex flex-wrap gap-3">
+                      <a
+                        href="#planes"
+                        class="bg-naranja shadow-naranja/25 hover:bg-naranja-oscuro rounded-xl px-6 py-3 font-semibold text-white shadow-lg transition-all hover:-translate-y-0.5"
+                      >
+                        {slide.variant === "promo" ? "Conocer promoción" : "Ver planes"}
+                      </a>
+                      <a
+                        href="#contacto"
+                        class="rounded-xl bg-white/[0.07] px-6 py-3 font-semibold text-white transition-colors hover:bg-white/[0.12]"
+                      >
+                        Contactar
+                      </a>
+                    </div>
+
+                    {slide.variant === "intro" && (
+                      <dl class="mt-9 flex flex-wrap gap-x-9 gap-y-4 min-[1340px]:hidden">
+                        <div>
+                          <dd class="text-verde text-xl font-bold">99%</dd>
+                          <dt class="text-xs text-gray-400">disponibilidad mensual</dt>
+                        </div>
+                        <div>
+                          <dd class="text-verde text-xl font-bold">SUNAT</dd>
+                          <dt class="text-xs text-gray-400">facturación conforme a norma</dt>
+                        </div>
+                        <div>
+                          <dd class="text-verde text-xl font-bold">24/7</dd>
+                          <dt class="text-xs text-gray-400">acceso desde cualquier lugar</dt>
+                        </div>
+                      </dl>
+                    )}
+                  </div>
+
+                  <div class="relative hidden min-h-[390px] items-center justify-center lg:flex">
+                    <div
+                      class:list={[
+                        "absolute h-72 w-72 rounded-full blur-3xl",
+                        slide.variant === "promo" ? "bg-verde/15" : "bg-naranja/15",
+                      ]}
+                    />
+
+                    {slide.variant === "intro" && (
+                      <>
+                        <div aria-hidden="true" class="absolute grid grid-cols-9 gap-1.5 opacity-70">
+                          {matrixCells.map((cell) => (
+                            <span
+                              style={`animation-delay: ${cell.delay}ms`}
+                              class="matrix-cell border-verde/20 bg-verde/[0.035] text-verde/45 flex h-8 w-8 items-center justify-center border font-mono text-[10px] font-bold"
+                            >
+                              {cell.char}
+                            </span>
+                          ))}
+                        </div>
+                        <Image
+                          src={isotipo}
+                          alt="Isotipo de FeMax"
+                          width={420}
+                          class="relative z-10 w-64 drop-shadow-[0_28px_55px_rgba(240,146,59,0.28)] xl:w-72"
+                        />
+                      </>
+                    )}
+
+                    {slide.variant === "promo" && (
+                      <div class="relative w-full max-w-sm pl-8">
+                        <p class="text-verde/25 text-[7rem] leading-none font-black">01</p>
+                        <p class="-mt-6 text-3xl leading-tight font-bold text-white">
+                          Tu equipo listo para operar.
+                        </p>
+                        <p class="mt-4 max-w-xs leading-relaxed text-gray-400">
+                          Configuración, capacitación y acompañamiento en un proceso claro.
+                        </p>
+                        <div class="bg-verde mt-8 h-1 w-20 rounded-full" />
+                      </div>
+                    )}
+
+                    {slide.variant === "product" && (
+                      <div class="relative flex w-full max-w-sm flex-col items-center">
+                        <Image
+                          src={isotipo}
+                          alt="Isotipo de FeMax"
+                          width={360}
+                          class="w-52 drop-shadow-[0_24px_50px_rgba(240,146,59,0.24)]"
+                        />
+                        <div class="mt-9 grid w-full grid-cols-3 gap-4 text-center">
+                          <div>
+                            <p class="text-verde text-xl font-bold">Ventas</p>
+                            <p class="mt-1 text-xs text-gray-400">en tiempo real</p>
+                          </div>
+                          <div>
+                            <p class="text-verde text-xl font-bold">Stock</p>
+                            <p class="mt-1 text-xs text-gray-400">centralizado</p>
+                          </div>
+                          <div>
+                            <p class="text-verde text-xl font-bold">SUNAT</p>
+                            <p class="mt-1 text-xs text-gray-400">integrado</p>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  {slide.variant === "intro" && (
+                    <dl
+                      style="right: calc((100vw - 100%) / -2 + 2rem)"
+                      class="absolute top-6 hidden w-56 gap-5 min-[1340px]:grid"
+                    >
+                      <div class="border-verde/50 border-l-2 pl-4">
+                        <dd class="text-verde text-2xl font-bold">99%</dd>
+                        <dt class="mt-1 text-sm text-gray-300">disponibilidad mensual</dt>
+                      </div>
+                      <div class="border-verde/50 border-l-2 pl-4">
+                        <dd class="text-verde text-2xl font-bold">SUNAT</dd>
+                        <dt class="mt-1 text-sm text-gray-300">facturación conforme a norma</dt>
+                      </div>
+                      <div class="border-verde/50 border-l-2 pl-4">
+                        <dd class="text-verde text-2xl font-bold">24/7</dd>
+                        <dt class="mt-1 text-sm text-gray-300">acceso desde cualquier lugar</dt>
+                      </div>
+                    </dl>
+                  )}
+                </div>
+              </article>
+            ))
+          }
+        </div>
       </div>
-      <dl class="mt-10 flex flex-wrap gap-x-10 gap-y-4 border-t border-white/15 pt-6">
-        <div class="flex flex-col-reverse">
-          <dt class="text-xs text-gray-400">disponibilidad mensual</dt>
-          <dd class="text-verde text-2xl font-bold">99%</dd>
-        </div>
-        <div class="flex flex-col-reverse">
-          <dt class="text-xs text-gray-400">facturación conforme a norma</dt>
-          <dd class="text-verde text-2xl font-bold">SUNAT</dd>
-        </div>
-        <div class="flex flex-col-reverse">
-          <dt class="text-xs text-gray-400">acceso desde cualquier lugar</dt>
-          <dd class="text-verde text-2xl font-bold">24/7</dd>
-        </div>
-      </dl>
-    </div>
-    <div class="hidden justify-center lg:flex">
-      <Image
-        src={isotipo}
-        alt="Isotipo de FeMax"
-        width={576}
-        class="w-72 drop-shadow-[0_20px_50px_rgba(240,146,59,0.25)]"
-      />
+
+      <div class="absolute bottom-6 left-1/2 flex -translate-x-1/2 gap-2">
+        {
+          heroSlides.map((_, index) => (
+            <button
+              type="button"
+              data-hero-dot={index}
+              aria-label={`Ir a la sección ${index + 1}`}
+              class="h-2.5 w-2.5 rounded-full bg-white/25 transition-all duration-300"
+            />
+          ))
+        }
+      </div>
+
+      <button
+        type="button"
+        data-hero-prev
+        aria-label="Ver anterior"
+        style="left: calc((100vw - 100%) / -2 + 0.75rem)"
+        class="text-tinta-suave absolute top-1/2 z-20 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-black/25 backdrop-blur-sm transition-colors hover:bg-white/15 hover:text-white"
+      >
+        <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5"></path>
+        </svg>
+      </button>
+      <button
+        type="button"
+        data-hero-next
+        aria-label="Ver siguiente"
+        style="right: calc((100vw - 100%) / -2 + 0.75rem)"
+        class="text-tinta-suave absolute top-1/2 z-20 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-black/25 backdrop-blur-sm transition-colors hover:bg-white/15 hover:text-white"
+      >
+        <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"></path>
+        </svg>
+      </button>
     </div>
   </Hero>
 
@@ -215,6 +421,111 @@ const contacto = [
       }
     </div>
   </section>
+
+  <script>
+    const panel = document.querySelector<HTMLElement>("[data-hero-panel]");
+    const slides = Array.from(document.querySelectorAll<HTMLElement>("[data-hero-slide]"));
+    const prev = document.querySelector<HTMLButtonElement>("[data-hero-prev]");
+    const next = document.querySelector<HTMLButtonElement>("[data-hero-next]");
+    const dots = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-hero-dot]"));
+
+    if (panel && slides.length && prev && next && dots.length) {
+      const total = dots.length;
+      let index = 0;
+      let timer: number | undefined;
+      let dragStartX: number | undefined;
+
+      const render = () => {
+        slides.forEach((slide, slideIndex) => {
+          const active = slideIndex === index;
+          slide.classList.toggle("invisible", !active);
+          slide.classList.toggle("pointer-events-none", !active);
+          slide.classList.toggle("translate-x-8", !active);
+          slide.classList.toggle("translate-x-0", active);
+          slide.classList.toggle("opacity-0", !active);
+          slide.classList.toggle("opacity-100", active);
+          slide.setAttribute("aria-hidden", active ? "false" : "true");
+        });
+        dots.forEach((dot, dotIndex) => {
+          const active = dotIndex === index;
+          dot.setAttribute("aria-current", active ? "true" : "false");
+          dot.className = active
+            ? "h-2.5 w-8 rounded-full bg-verde transition-all duration-300"
+            : "h-2.5 w-2.5 rounded-full bg-white/25 transition-all duration-300 hover:bg-white/45";
+        });
+      };
+
+      const move = (delta: number) => {
+        index = (index + delta + total) % total;
+        render();
+      };
+
+      const stop = () => {
+        if (timer) window.clearInterval(timer);
+      };
+
+      const start = () => {
+        stop();
+        timer = window.setInterval(() => move(1), 7000);
+      };
+
+      prev.addEventListener("click", () => move(-1));
+      next.addEventListener("click", () => move(1));
+      dots.forEach((dot, dotIndex) =>
+        dot.addEventListener("click", () => {
+          index = dotIndex;
+          render();
+        }),
+      );
+
+      panel.addEventListener("mouseenter", stop);
+      panel.addEventListener("mouseleave", start);
+      panel.addEventListener("focusin", stop);
+      panel.addEventListener("focusout", start);
+      panel.addEventListener("pointerdown", (event) => {
+        if (event.pointerType !== "mouse") dragStartX = event.clientX;
+      });
+      panel.addEventListener("pointerup", (event) => {
+        if (dragStartX === undefined) return;
+        const distance = event.clientX - dragStartX;
+        dragStartX = undefined;
+        if (Math.abs(distance) < 50) return;
+        move(distance > 0 ? -1 : 1);
+        start();
+      });
+      panel.addEventListener("pointercancel", () => {
+        dragStartX = undefined;
+      });
+
+      render();
+      start();
+    }
+  </script>
+
+  <style>
+    .matrix-cell {
+      animation: matrix-cell-pulse 3.6s ease-in-out infinite;
+    }
+
+    @keyframes matrix-cell-pulse {
+      0%,
+      100% {
+        opacity: 0.18;
+        box-shadow: none;
+      }
+      45% {
+        opacity: 0.7;
+        box-shadow: inset 0 0 12px rgb(0 200 95 / 0.1);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .matrix-cell {
+        animation: none;
+        opacity: 0.35;
+      }
+    }
+  </style>
 
   <!-- BANDA SUNAT -->
   <section class="from-verde-oscuro to-verde bg-gradient-to-r text-white">
