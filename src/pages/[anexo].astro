@@ -1,0 +1,16 @@
+---
+import { getCollection, render } from "astro:content";
+import AnexoLayout from "../layouts/AnexoLayout.astro";
+
+export async function getStaticPaths() {
+  const entradas = await getCollection("anexos");
+  return entradas.map((entrada) => ({ params: { anexo: entrada.id }, props: { entrada } }));
+}
+
+const { entrada } = Astro.props;
+const { Content } = await render(entrada);
+---
+
+<AnexoLayout {...entrada.data}>
+  <Content />
+</AnexoLayout>

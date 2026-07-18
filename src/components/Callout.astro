@@ -1,0 +1,16 @@
+---
+interface Props {
+  color?: "naranja" | "verde";
+}
+
+const { color = "naranja" } = Astro.props;
+---
+
+<div
+  class:list={[
+    "bg-crema my-4 rounded-r-lg border-l-4 px-4.5 py-3.5 text-[0.925rem] leading-relaxed",
+    color === "naranja" ? "border-naranja" : "border-verde",
+  ]}
+>
+  <slot />
+</div>

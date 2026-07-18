@@ -1,0 +1,23 @@
+---
+interface Props {
+  id: string;
+  numero: string;
+  titulo: string;
+}
+
+const { id, numero, titulo } = Astro.props;
+---
+
+<section id={id} data-seccion class="border-borde/70 border-b py-10 first:pt-2 last:border-b-0">
+  <div class="doc-content">
+    <div class="mb-5 flex items-baseline gap-3.5">
+      <span
+        class="from-naranja to-naranja-oscuro bg-gradient-to-br bg-clip-text text-3xl font-extrabold text-transparent"
+      >
+        {numero}
+      </span>
+      <h2 class="text-carbon text-[1.55rem] leading-tight font-bold">{titulo}</h2>
+    </div>
+    <slot />
+  </div>
+</section>

@@ -1,0 +1,213 @@
+---
+import { Image } from "astro:assets";
+import "../styles/global.css";
+import logo from "../assets/logo.png";
+import { documento, empresa, legales, seccionesNav } from "../data/site";
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+
+const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
+const enLegales = currentPath.startsWith("/anexo") || currentPath === "/terminos-y-condiciones";
+
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = new URL("/og.png", Astro.site);
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:locale" content="es_PE" />
+    <meta name="twitter:card" content="summary_large_image" />
+  </head>
+  <body class="text-tinta bg-white font-sans antialiased">
+    <header class="bg-carbon/95 sticky top-0 z-50 border-b border-white/10 backdrop-blur">
+      <div class="mx-auto flex max-w-5xl items-center justify-between gap-4 px-5 py-3">
+        <a href="/" class="flex items-center gap-3">
+          <Image src={logo} alt="FEMAXX" height={72} class="h-9 w-auto" />
+          <span class="sr-only">FEMAXX — Inicio</span>
+        </a>
+
+        <nav class="hidden items-center gap-1 md:flex">
+          {
+            seccionesNav.map((s) => (
+              <a
+                href={s.href}
+                class="rounded-full px-4 py-1.5 text-sm font-medium text-gray-300 transition-colors hover:bg-white/10 hover:text-white"
+              >
+                {s.label}
+              </a>
+            ))
+          }
+          <div class="group relative" data-dropdown>
+            <button
+              type="button"
+              aria-expanded="false"
+              aria-haspopup="true"
+              class:list={[
+                "flex items-center gap-1.5 rounded-full px-4 py-1.5 text-sm font-medium transition-colors",
+                enLegales ? "bg-verde text-white" : "text-gray-300 hover:bg-white/10 hover:text-white",
+              ]}
+            >
+              Legal
+              <svg
+                class="h-3.5 w-3.5 transition-transform group-hover:rotate-180"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2.5"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"></path>
+              </svg>
+            </button>
+            <div
+              class="invisible absolute top-full right-0 w-80 pt-2 opacity-0 transition-all group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100"
+            >
+              <ul class="border-borde overflow-hidden rounded-xl border bg-white shadow-xl">
+                {
+                  legales.map((a) => (
+                    <li>
+                      <a
+                        href={a.href}
+                        class:list={[
+                          "border-borde/60 hover:bg-crema block border-b px-4 py-3 text-sm transition-colors last:border-b-0",
+                          currentPath === a.href ? "text-verde-oscuro font-semibold" : "text-tinta",
+                        ]}
+                      >
+                        {a.label}
+                      </a>
+                    </li>
+                  ))
+                }
+              </ul>
+            </div>
+          </div>
+        </nav>
+
+        <details class="relative md:hidden">
+          <summary
+            class="flex cursor-pointer list-none items-center rounded-lg p-2 text-gray-200 hover:bg-white/10 [&::-webkit-details-marker]:hidden"
+          >
+            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"></path>
+            </svg>
+            <span class="sr-only">Abrir menú</span>
+          </summary>
+          <div class="absolute top-full right-0 z-50 mt-2 w-72">
+            <ul class="border-borde overflow-hidden rounded-xl border bg-white shadow-xl">
+              {
+                seccionesNav.map((s) => (
+                  <li>
+                    <a
+                      href={s.href}
+                      class="border-borde/60 text-carbon hover:bg-crema block border-b px-4 py-3 text-sm font-semibold"
+                    >
+                      {s.label}
+                    </a>
+                  </li>
+                ))
+              }
+              {
+                legales.map((a) => (
+                  <li>
+                    <a
+                      href={a.href}
+                      class="border-borde/60 text-tinta hover:bg-crema block border-b px-4 py-3 text-sm last:border-b-0"
+                    >
+                      {a.label}
+                    </a>
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+        </details>
+      </div>
+    </header>
+
+    <slot />
+
+    <footer class="bg-carbon text-gray-400">
+      <div class="mx-auto grid max-w-5xl gap-10 px-5 py-12 md:grid-cols-3">
+        <div>
+          <Image src={logo} alt="FEMAXX" height={80} class="mb-4 h-10 w-auto" />
+          <p class="text-sm leading-relaxed">
+            Plataforma SaaS de gestión empresarial y facturación electrónica conforme a la normativa de la
+            SUNAT.
+          </p>
+        </div>
+        <div>
+          <h3 class="text-naranja mb-3 text-xs font-bold tracking-wider uppercase">Legal</h3>
+          <ul class="space-y-2 text-sm">
+            {
+              legales.map((a) => (
+                <li>
+                  <a href={a.href} class="transition-colors hover:text-white">
+                    {a.label}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-verde mb-3 text-xs font-bold tracking-wider uppercase">Contacto</h3>
+          <ul class="space-y-2 text-sm">
+            <li>{empresa.razonSocial}</li>
+            <li>
+              <a href={`mailto:${empresa.correo}`} class="transition-colors hover:text-white"
+                >{empresa.correo}</a>
+            </li>
+            <li>
+              <a href={empresa.telefonoHref} class="transition-colors hover:text-white">{empresa.telefono}</a>
+            </li>
+            <li>{empresa.direccion}</li>
+            <li>{empresa.horarioCorto}</li>
+          </ul>
+        </div>
+      </div>
+      <div class="border-t border-white/10">
+        <p class="mx-auto max-w-5xl px-5 py-4 text-center text-xs">
+          Versión {documento.version} | {empresa.razonSocial} | © {documento.anio} — Última actualización: {
+            documento.actualizacion
+          }
+        </p>
+      </div>
+    </footer>
+
+    <script>
+      // Mantiene aria-expanded del menú "Legal" sincronizado con hover/foco
+      document.querySelectorAll<HTMLElement>("[data-dropdown]").forEach((dd) => {
+        const boton = dd.querySelector("button");
+        if (!boton) return;
+        const abrir = (abierto: boolean) => boton.setAttribute("aria-expanded", String(abierto));
+        dd.addEventListener("mouseenter", () => abrir(true));
+        dd.addEventListener("mouseleave", () => abrir(false));
+        dd.addEventListener("focusin", () => abrir(true));
+        dd.addEventListener("focusout", (e) => {
+          if (!dd.contains(e.relatedTarget as Node)) abrir(false);
+        });
+      });
+    </script>
+  </body>
+</html>

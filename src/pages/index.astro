@@ -1,0 +1,394 @@
+---
+import { Image } from "astro:assets";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Hero from "../components/Hero.astro";
+import isotipo from "../assets/isotipo.png";
+import { empresa } from "../data/site";
+
+const funcionalidades = [
+  {
+    titulo: "Gestión empresarial",
+    detalle:
+      "Administra tus empresas y sucursales de forma centralizada, con la información de toda tu organización en un solo lugar.",
+    icono:
+      "M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21",
+  },
+  {
+    titulo: "Usuarios, roles y permisos",
+    detalle:
+      "Controla quién accede a qué: crea usuarios, asigna roles y limita permisos según las funciones de cada miembro de tu equipo.",
+    icono:
+      "M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z",
+  },
+  {
+    titulo: "Inventario",
+    detalle:
+      "Gestiona productos, categorías y stock en tiempo real, con visibilidad del inventario en todas tus sucursales.",
+    icono: "m21 7.5-9-5.25L3 7.5m18 0-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9",
+  },
+  {
+    titulo: "Compras y proveedores",
+    detalle:
+      "Registra compras, administra proveedores y mantén el control de los ingresos de mercadería a tu almacén.",
+    icono:
+      "M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z",
+  },
+  {
+    titulo: "Punto de Venta (POS)",
+    detalle:
+      "Vende rápido desde cualquier sucursal con un punto de venta ágil, conectado a tu inventario y a la facturación.",
+    icono:
+      "M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z",
+  },
+  {
+    titulo: "Facturación electrónica",
+    detalle:
+      "Emite boletas y facturas electrónicas conforme a la normativa de la SUNAT, con validación vía PSE/OSE y consulta de tus comprobantes.",
+    icono:
+      "M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z",
+  },
+] as const;
+
+const planes = [
+  {
+    nombre: "Trial",
+    precio: "Gratis",
+    descripcion: "Plan de evaluación para conocer la Plataforma antes de contratar un plan pago.",
+    caracteristicas: [
+      "Acceso limitado en el tiempo",
+      "Funcionalidades básicas para evaluar",
+      "Sin compromiso de pago",
+      "Ideal para conocer FeMax",
+    ],
+    cta: "Probar gratis",
+    destacado: false,
+  },
+  {
+    nombre: "PyME",
+    precio: "Consultar",
+    descripcion: "Orientado a pequeñas y medianas empresas que necesitan crecer con orden.",
+    caracteristicas: [
+      "Funcionalidades ampliadas",
+      "Mayor cantidad de usuarios",
+      "Más sucursales",
+      "Mayor volumen de comprobantes",
+    ],
+    cta: "Solicitar propuesta",
+    destacado: true,
+  },
+  {
+    nombre: "Pro",
+    precio: "Consultar",
+    descripcion: "Para empresas de mayor escala que requieren el máximo de la Plataforma.",
+    caracteristicas: [
+      "Acceso completo a la Plataforma",
+      "Mayores límites de uso",
+      "Soporte prioritario",
+      "Facturación mensual o anual",
+    ],
+    cta: "Solicitar propuesta",
+    destacado: false,
+  },
+] as const;
+
+const seguridad = [
+  "Conexión cifrada mediante protocolo HTTPS",
+  "Cifrado de contraseñas de los usuarios",
+  "Control de acceso y auditoría de actividades",
+  "Copias de seguridad (backups) periódicas",
+  "Registro de eventos (logs) del sistema",
+  "Monitoreo continuo de la infraestructura",
+] as const;
+
+const contacto = [
+  {
+    canal: "Correo",
+    detalle: empresa.correo,
+    href: `mailto:${empresa.correo}`,
+    icono:
+      "M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75",
+  },
+  {
+    canal: "Teléfono",
+    detalle: empresa.telefono,
+    href: empresa.telefonoHref,
+    icono:
+      "M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z",
+  },
+  {
+    canal: "Dirección",
+    detalle: empresa.direccion,
+    href: undefined,
+    icono:
+      "M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm4.5 0c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z",
+  },
+  {
+    canal: "Horario",
+    detalle: empresa.horarioCorto,
+    href: undefined,
+    icono: "M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z",
+  },
+] as const;
+---
+
+<BaseLayout
+  title="FeMax — Gestión Empresarial y Facturación Electrónica"
+  description="FeMax es la plataforma SaaS de FEMAXX S.A.C. para gestionar tu empresa: sucursales, inventario, compras, punto de venta y facturación electrónica conforme a la SUNAT."
+>
+  <!-- HERO -->
+  <Hero contenedor="grid max-w-6xl items-center gap-12 px-5 py-20 sm:py-24 lg:grid-cols-2">
+    <div>
+      <p
+        class="mb-5 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-1.5 text-xs font-semibold tracking-wide text-gray-300"
+      >
+        <span class="bg-verde h-1.5 w-1.5 animate-pulse rounded-full"></span>
+        Plataforma SaaS · 100% en la nube
+      </p>
+      <h1 class="text-4xl leading-tight font-bold sm:text-5xl">
+        Gestiona tu empresa y <span class="text-naranja">factura electrónicamente</span> en un solo lugar
+      </h1>
+      <p class="mt-5 max-w-xl text-lg leading-relaxed text-gray-400">
+        FeMax centraliza tus sucursales, inventario, compras, punto de venta y la emisión de comprobantes
+        electrónicos conforme a la normativa de la SUNAT — sin servidores ni instalaciones locales.
+      </p>
+      <div class="mt-8 flex flex-wrap gap-3">
+        <a
+          href="#planes"
+          class="bg-naranja shadow-naranja/25 hover:bg-naranja-oscuro rounded-xl px-6 py-3 font-semibold text-white shadow-lg transition-all hover:-translate-y-0.5"
+        >
+          Ver planes
+        </a>
+        <a
+          href="#contacto"
+          class="rounded-xl border border-white/20 bg-white/5 px-6 py-3 font-semibold text-white transition-colors hover:bg-white/10"
+        >
+          Contactar
+        </a>
+      </div>
+      <dl class="mt-10 flex flex-wrap gap-x-10 gap-y-4 border-t border-white/15 pt-6">
+        <div class="flex flex-col-reverse">
+          <dt class="text-xs text-gray-400">disponibilidad mensual</dt>
+          <dd class="text-verde text-2xl font-bold">99%</dd>
+        </div>
+        <div class="flex flex-col-reverse">
+          <dt class="text-xs text-gray-400">facturación conforme a norma</dt>
+          <dd class="text-verde text-2xl font-bold">SUNAT</dd>
+        </div>
+        <div class="flex flex-col-reverse">
+          <dt class="text-xs text-gray-400">acceso desde cualquier lugar</dt>
+          <dd class="text-verde text-2xl font-bold">24/7</dd>
+        </div>
+      </dl>
+    </div>
+    <div class="hidden justify-center lg:flex">
+      <Image
+        src={isotipo}
+        alt="Isotipo de FeMax"
+        width={576}
+        class="w-72 drop-shadow-[0_20px_50px_rgba(240,146,59,0.25)]"
+      />
+    </div>
+  </Hero>
+
+  <!-- FUNCIONALIDADES -->
+  <section id="funcionalidades" class="mx-auto max-w-6xl px-5 py-20">
+    <p class="text-naranja-oscuro text-center text-xs font-bold tracking-widest uppercase">Funcionalidades</p>
+    <h2 class="text-carbon mx-auto mt-2 max-w-2xl text-center text-3xl font-bold sm:text-4xl">
+      Todo lo que tu operación necesita
+    </h2>
+    <p class="text-tinta-suave mx-auto mt-3 max-w-xl text-center">
+      Diseñado para pequeñas, medianas y grandes empresas que quieren ordenar y optimizar sus procesos.
+    </p>
+    <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        funcionalidades.map((f) => (
+          <div class="group border-borde hover:border-naranja/60 hover:shadow-naranja/10 rounded-2xl border bg-white p-6 transition-all hover:-translate-y-1 hover:shadow-xl">
+            <div class="from-naranja/15 to-verde/15 text-naranja-oscuro group-hover:from-naranja group-hover:to-naranja-oscuro mb-4 inline-flex rounded-xl bg-gradient-to-br p-3 transition-colors group-hover:text-white">
+              <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d={f.icono} />
+              </svg>
+            </div>
+            <h3 class="text-carbon mb-2 text-lg font-bold">{f.titulo}</h3>
+            <p class="text-tinta-suave text-sm leading-relaxed">{f.detalle}</p>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- BANDA SUNAT -->
+  <section class="from-verde-oscuro to-verde bg-gradient-to-r text-white">
+    <div
+      class="mx-auto flex max-w-6xl flex-col items-center gap-6 px-5 py-12 text-center lg:flex-row lg:justify-between lg:text-left"
+    >
+      <div class="max-w-2xl">
+        <h2 class="text-2xl font-bold">Facturación electrónica conforme a la SUNAT</h2>
+        <p class="mt-2 text-white/85">
+          Emite tus comprobantes con validación a través de PSE/OSE, obtén la Constancia de Recepción (CDR) y
+          consulta tus comprobantes emitidos directamente en la Plataforma.
+        </p>
+      </div>
+      <a
+        href="#contacto"
+        class="text-verde-oscuro shrink-0 rounded-xl bg-white px-6 py-3 font-semibold transition-all hover:-translate-y-0.5 hover:shadow-lg"
+      >
+        Quiero saber más
+      </a>
+    </div>
+  </section>
+
+  <!-- PLANES -->
+  <section id="planes" class="mx-auto max-w-6xl px-5 py-20">
+    <p class="text-naranja-oscuro text-center text-xs font-bold tracking-widest uppercase">Planes</p>
+    <h2 class="text-carbon mx-auto mt-2 max-w-2xl text-center text-3xl font-bold sm:text-4xl">
+      Un plan para cada etapa de tu empresa
+    </h2>
+    <p class="text-tinta-suave mx-auto mt-3 max-w-xl text-center">
+      Las condiciones comerciales, precios y límites específicos están disponibles en la propuesta comercial
+      correspondiente.
+    </p>
+    <div class="mt-12 grid gap-6 lg:grid-cols-3">
+      {
+        planes.map((p) => (
+          <div
+            class:list={[
+              "relative flex flex-col rounded-2xl border bg-white p-7 transition-all hover:-translate-y-1 hover:shadow-xl",
+              p.destacado ? "border-naranja shadow-naranja/15 shadow-lg" : "border-borde",
+            ]}
+          >
+            {p.destacado && (
+              <span class="bg-naranja absolute -top-3 left-1/2 -translate-x-1/2 rounded-full px-3.5 py-1 text-xs font-bold text-white">
+                Más popular
+              </span>
+            )}
+            <h3 class="text-carbon text-lg font-bold">{p.nombre}</h3>
+            <p class="text-verde-oscuro mt-1 text-3xl font-bold">{p.precio}</p>
+            <p class="text-tinta-suave mt-3 text-sm leading-relaxed">{p.descripcion}</p>
+            <ul class="mt-5 mb-7 space-y-2.5">
+              {p.caracteristicas.map((c) => (
+                <li class="text-tinta flex items-start gap-2.5 text-sm">
+                  <svg
+                    class="text-verde mt-0.5 h-4 w-4 shrink-0"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2.5"
+                  >
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+                  </svg>
+                  {c}
+                </li>
+              ))}
+            </ul>
+            <a
+              href="#contacto"
+              class:list={[
+                "mt-auto rounded-xl px-5 py-2.5 text-center font-semibold transition-colors",
+                p.destacado
+                  ? "bg-naranja hover:bg-naranja-oscuro text-white"
+                  : "border-carbon/20 text-carbon hover:bg-carbon border hover:text-white",
+              ]}
+            >
+              {p.cta}
+            </a>
+          </div>
+        ))
+      }
+    </div>
+    <p class="text-tinta-suave mt-8 text-center text-sm">
+      Facturación mensual o anual · Renovación automática · Cancela según lo previsto en los{" "}
+      <a href="/terminos-y-condiciones" class="text-naranja-oscuro font-semibold hover:underline"
+        >Términos y Condiciones</a
+      >.
+    </p>
+  </section>
+
+  <!-- SEGURIDAD -->
+  <section id="seguridad" class="bg-carbon text-white">
+    <div class="mx-auto grid max-w-6xl items-center gap-12 px-5 py-20 lg:grid-cols-2">
+      <div>
+        <p class="text-verde text-xs font-bold tracking-widest uppercase">Seguridad y disponibilidad</p>
+        <h2 class="mt-2 text-3xl font-bold sm:text-4xl">Tu información, protegida y siempre disponible</h2>
+        <p class="mt-4 leading-relaxed text-gray-400">
+          FeMax administra la infraestructura cloud, la seguridad del servidor y de la base de datos, las
+          actualizaciones y el monitoreo permanente, para que tú te concentres en tu negocio. Conoce el
+          detalle en el{" "}
+          <a
+            href="/anexo-i-modelo-responsabilidad-compartida"
+            class="text-naranja font-semibold hover:underline">Modelo de Responsabilidad Compartida</a
+          >{" "}
+          y los <a href="/anexo-ii-niveles-servicio-sla" class="text-naranja font-semibold hover:underline"
+            >Niveles de Servicio (SLA)</a
+          >.
+        </p>
+      </div>
+      <ul class="grid gap-3 sm:grid-cols-2">
+        {
+          seguridad.map((s) => (
+            <li class="flex items-start gap-3 rounded-xl border border-white/10 bg-white/5 px-4 py-3.5 text-sm">
+              <svg
+                class="text-verde mt-0.5 h-4.5 w-4.5 shrink-0"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z"
+                />
+              </svg>
+              {s}
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <!-- CONTACTO -->
+  <section id="contacto" class="mx-auto max-w-6xl px-5 py-20">
+    <div class="grid items-center gap-12 lg:grid-cols-2">
+      <div>
+        <p class="text-naranja-oscuro text-xs font-bold tracking-widest uppercase">Contacto</p>
+        <h2 class="text-carbon mt-2 text-3xl font-bold sm:text-4xl">Conversemos sobre tu empresa</h2>
+        <p class="text-tinta-suave mt-4 leading-relaxed">
+          Escríbenos para conocer la Plataforma, solicitar una propuesta comercial o resolver cualquier
+          consulta sobre el servicio. Te responderemos dentro de nuestro horario de atención.
+        </p>
+        <a
+          href="mailto:femaxsac@gmail.com?subject=Quiero%20conocer%20FeMax"
+          class="bg-verde shadow-verde/25 hover:bg-verde-oscuro mt-7 inline-flex items-center gap-2.5 rounded-xl px-6 py-3 font-semibold text-white shadow-lg transition-all hover:-translate-y-0.5"
+        >
+          Escríbenos
+          <svg class="h-4.5 w-4.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"
+            ></path>
+          </svg>
+        </a>
+      </div>
+      <div class="grid gap-4 sm:grid-cols-2">
+        {
+          contacto.map((c) => (
+            <div class="border-borde rounded-2xl border bg-white p-5">
+              <div class="bg-crema text-naranja-oscuro mb-3 inline-flex rounded-lg p-2.5">
+                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d={c.icono} />
+                </svg>
+              </div>
+              <p class="text-tinta-suave text-xs font-bold tracking-wide uppercase">{c.canal}</p>
+              {c.href ? (
+                <a href={c.href} class="text-carbon hover:text-naranja-oscuro mt-0.5 block font-semibold">
+                  {c.detalle}
+                </a>
+              ) : (
+                <p class="text-carbon mt-0.5 font-semibold">{c.detalle}</p>
+              )}
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</BaseLayout>

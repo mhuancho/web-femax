@@ -1,0 +1,117 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+import Hero from "../components/Hero.astro";
+import { anexos, badgeTitulo, documento, hrefAnexo } from "../data/site";
+
+interface Props {
+  badge: string;
+  titulo: string;
+  description: string;
+  seccionRelacionada: string;
+  notaReferencia: string;
+}
+
+const { badge, titulo, description, seccionRelacionada, notaReferencia } = Astro.props;
+
+const actual = anexos.findIndex((a) => a.badge === badge);
+const anterior = actual > 0 ? anexos[actual - 1] : undefined;
+const siguiente = actual < anexos.length - 1 ? anexos[actual + 1] : undefined;
+---
+
+<BaseLayout title={`${badge} — ${titulo} | FeMax`} description={description}>
+  <Hero contenedor="max-w-4xl px-5 py-14">
+    <nav aria-label="Ruta de navegación" class="mb-6 flex items-center gap-2 text-sm text-gray-400">
+      <a href="/" class="transition-colors hover:text-white">Inicio</a>
+      <span aria-hidden="true">/</span>
+      <a href="/terminos-y-condiciones" class="transition-colors hover:text-white">Términos y Condiciones</a>
+      <span aria-hidden="true">/</span>
+      <span class="text-gray-300">{badgeTitulo(badge)}</span>
+    </nav>
+    <span class="bg-verde mb-4 inline-block rounded-full px-3.5 py-1.5 text-xs font-bold tracking-wide"
+      >{badge}</span
+    >
+    <h1 class="max-w-2xl text-3xl leading-tight font-bold sm:text-4xl">{titulo}</h1>
+    <p class="mt-3 max-w-xl text-gray-400">
+      Documento complementario al Acuerdo de Uso del Servicio SaaS de FeMax.
+    </p>
+    <div class="mt-7 flex flex-wrap gap-3 text-sm">
+      <span class="rounded-lg bg-white/10 px-3.5 py-2"
+        >Versión <strong class="font-semibold text-white">{documento.version}</strong></span
+      >
+      <span class="rounded-lg bg-white/10 px-3.5 py-2"
+        >Vigente desde <strong class="font-semibold text-white">{documento.vigencia}</strong></span
+      >
+      <span class="rounded-lg bg-white/10 px-3.5 py-2"
+        >Desarrolla la <strong class="font-semibold text-white">{seccionRelacionada}</strong> del Acuerdo</span
+      >
+    </div>
+  </Hero>
+
+  <main class="mx-auto max-w-4xl px-5 py-12">
+    <div
+      class="doc-content [&_h2]:border-borde [&_h2]:text-carbon [&_h2]:mt-9 [&_h2]:mb-2.5 [&_h2]:border-b [&_h2]:pb-2.5 [&_h2]:text-xl [&_h2]:font-bold [&_h2:first-child]:mt-0"
+    >
+      <slot />
+      <div
+        class="border-verde bg-crema text-tinta-suave mt-9 rounded-r-xl border-l-4 px-5 py-4 text-sm leading-relaxed"
+      >
+        {notaReferencia}
+      </div>
+    </div>
+
+    <!-- Navegación entre anexos -->
+    <nav
+      aria-label="Navegación entre anexos"
+      class="border-borde mt-10 grid gap-4 border-t pt-8 sm:grid-cols-2"
+    >
+      {
+        anterior ? (
+          <a
+            href={hrefAnexo(anterior)}
+            class="group border-borde hover:border-naranja rounded-2xl border bg-white p-5 transition-all hover:shadow-md"
+          >
+            <span class="text-tinta-suave text-xs font-bold tracking-wide uppercase">← Anterior</span>
+            <span class="text-carbon group-hover:text-naranja-oscuro mt-1 block font-semibold">
+              {anterior.badge} — {anterior.nombre}
+            </span>
+          </a>
+        ) : (
+          <a
+            href="/terminos-y-condiciones"
+            class="group border-borde hover:border-naranja rounded-2xl border bg-white p-5 transition-all hover:shadow-md"
+          >
+            <span class="text-tinta-suave text-xs font-bold tracking-wide uppercase">
+              ← Documento principal
+            </span>
+            <span class="text-carbon group-hover:text-naranja-oscuro mt-1 block font-semibold">
+              Términos y Condiciones
+            </span>
+          </a>
+        )
+      }
+      {
+        siguiente ? (
+          <a
+            href={hrefAnexo(siguiente)}
+            class="group border-borde hover:border-verde rounded-2xl border bg-white p-5 text-right transition-all hover:shadow-md"
+          >
+            <span class="text-tinta-suave text-xs font-bold tracking-wide uppercase">Siguiente →</span>
+            <span class="text-carbon group-hover:text-verde-oscuro mt-1 block font-semibold">
+              {siguiente.badge} — {siguiente.nombre}
+            </span>
+          </a>
+        ) : (
+          <a
+            href="/terminos-y-condiciones#s17"
+            class="group border-borde hover:border-verde rounded-2xl border bg-white p-5 text-right transition-all hover:shadow-md"
+          >
+            <span class="text-tinta-suave text-xs font-bold tracking-wide uppercase">Volver →</span>
+            <span class="text-carbon group-hover:text-verde-oscuro mt-1 block font-semibold">
+              Todos los documentos
+            </span>
+          </a>
+        )
+      }
+    </nav>
+  </main>
+</BaseLayout>

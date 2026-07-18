@@ -1,0 +1,736 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Hero from "../components/Hero.astro";
+import Seccion from "../components/Seccion.astro";
+import SubTag from "../components/SubTag.astro";
+import Callout from "../components/Callout.astro";
+import { anexos as anexosData, documento, empresa, hrefAnexo } from "../data/site";
+
+const indice = [
+  { id: "s1", titulo: "Introducción" },
+  { id: "s2", titulo: "Definiciones" },
+  { id: "s3", titulo: "Objeto del Servicio" },
+  { id: "s4", titulo: "Registro y Creación de Cuenta" },
+  { id: "s5", titulo: "Planes y Suscripciones" },
+  { id: "s6", titulo: "Modelo de Responsabilidad Compartida" },
+  { id: "s7", titulo: "Seguridad de la Información" },
+  { id: "s8", titulo: "Disponibilidad del Servicio" },
+  { id: "s9", titulo: "Facturación Electrónica" },
+  { id: "s10", titulo: "Pagos, Suspensión y Cancelación" },
+  { id: "s11", titulo: "Propiedad Intelectual" },
+  { id: "s12", titulo: "Protección de Datos Personales" },
+  { id: "s13", titulo: "Limitación de Responsabilidad" },
+  { id: "s14", titulo: "Modificaciones de los Términos" },
+  { id: "s15", titulo: "Legislación Aplicable" },
+  { id: "s16", titulo: "Contacto" },
+  { id: "s17", titulo: "Documentos Referenciados" },
+] as const;
+
+const anexos = anexosData.map((a) => ({ href: hrefAnexo(a), ...a }));
+
+const definiciones = [
+  [
+    "FeMax",
+    "FEMAXX S.A.C. (razón social) y FeMax (nombre comercial), en su calidad de proveedor de la Plataforma. Ambos términos se refieren a la misma empresa.",
+  ],
+  [
+    "Plataforma",
+    "Sistema SaaS desarrollado por FEMAXX S.A.C. para la gestión empresarial y facturación electrónica.",
+  ],
+  ["Cliente", "Persona natural o jurídica que contrata el Servicio ofrecido por FeMax."],
+  ["Usuario", "Persona autorizada por el Cliente para acceder y operar dentro del sistema."],
+  ["Empresa", "Organización registrada dentro del sistema por el Cliente."],
+  ["Suscripción", "Derecho temporal de uso de la Plataforma, sujeto al plan contratado."],
+  ["Facturación Electrónica", "Emisión de comprobantes electrónicos conforme a la normativa de la SUNAT."],
+  [
+    "PSE",
+    "Proveedor de Servicios Electrónicos, encargado de la generación, validación y/o envío de los comprobantes de pago electrónicos, pudiendo canalizar dicho envío directamente o a través de un OSE.",
+  ],
+  ["OSE", "Operador de Servicios Electrónicos autorizado por la SUNAT."],
+  ["SUNAT", "Superintendencia Nacional de Aduanas y de Administración Tributaria del Perú."],
+] as const;
+
+const planes = [
+  [
+    "Trial",
+    "Plan de evaluación gratuito, con acceso limitado en el tiempo y en funcionalidades, destinado a que el Cliente conozca la Plataforma antes de contratar un plan pago.",
+  ],
+  [
+    "PyME",
+    "Funcionalidades ampliadas, mayor cantidad de usuarios, sucursales y volumen de comprobantes, orientado a pequeñas y medianas empresas.",
+  ],
+  [
+    "Pro",
+    "Acceso completo a las funcionalidades de la Plataforma, mayores límites de uso y soporte prioritario, orientado a empresas de mayor escala.",
+  ],
+] as const;
+
+const responsabilidades = [
+  ["Infraestructura Cloud", "Administración de usuarios"],
+  ["Seguridad del servidor", "Contraseñas"],
+  ["Disponibilidad", "Asignación de permisos"],
+  ["Copias de seguridad de tu información (backups)", "Información registrada"],
+  ["Actualizaciones", "Certificado Digital"],
+  ["Monitoreo", "Configuración tributaria"],
+  ["Seguridad de la Base de Datos", "Seguridad de los equipos donde acceden"],
+  ["Plataforma", "Cumplimiento tributario"],
+] as const;
+
+const contacto = [
+  ["Razón Social", empresa.razonSocial],
+  ["Nombre Comercial", empresa.nombreComercial],
+  ["Correo electrónico", empresa.correo],
+  ["Teléfono", empresa.telefono],
+  ["Dirección", empresa.direccion],
+  ["Horario de atención", empresa.horario],
+] as const;
+---
+
+<BaseLayout
+  title="Términos y Condiciones | FeMax — FEMAXX S.A.C."
+  description="Términos y Condiciones de la Plataforma de Gestión Empresarial y Facturación Electrónica de FeMax (FEMAXX S.A.C.)."
+>
+  <!-- HERO -->
+  <Hero contenedor="max-w-6xl px-5 py-16 sm:py-20">
+    <p
+      class="mb-4 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-1.5 text-xs font-semibold tracking-wide text-gray-300"
+    >
+      <span class="bg-verde h-1.5 w-1.5 rounded-full"></span>
+      Documento legal · Versión {documento.version}
+    </p>
+    <h1 class="max-w-2xl text-4xl leading-tight font-bold sm:text-5xl">
+      Términos y <span class="text-naranja">Condiciones</span>
+    </h1>
+    <p class="mt-4 max-w-xl text-lg leading-relaxed text-gray-400">
+      Acuerdo de Uso del Servicio SaaS de la Plataforma de Gestión Empresarial y Facturación Electrónica de
+      FeMax.
+    </p>
+    <div class="mt-8 flex flex-wrap gap-3 text-sm">
+      <span class="rounded-lg bg-white/10 px-3.5 py-2"
+        >Vigente desde <strong class="font-semibold text-white">{documento.vigencia}</strong></span
+      >
+      <span class="rounded-lg bg-white/10 px-3.5 py-2"
+        >Emitido por <strong class="font-semibold text-white">{empresa.razonSocial}</strong></span
+      >
+      <a
+        href="#s17"
+        class="bg-verde hover:bg-verde-oscuro rounded-lg px-3.5 py-2 font-semibold text-white transition-colors"
+      >
+        Ver anexos ↓
+      </a>
+    </div>
+  </Hero>
+
+  <!-- CUERPO -->
+  <div class="mx-auto max-w-6xl px-5 py-10 lg:grid lg:grid-cols-[270px_minmax(0,1fr)] lg:gap-14">
+    <!-- Índice lateral (desktop) -->
+    <aside class="hidden lg:block">
+      <nav
+        aria-label="Índice del documento"
+        class="sticky top-24 max-h-[calc(100vh-7rem)] overflow-y-auto pb-6"
+      >
+        <p class="text-tinta-suave mb-3 text-xs font-bold tracking-wider uppercase">Contenido</p>
+        <ol class="border-borde space-y-0.5 border-l-2 text-[0.85rem]">
+          {
+            indice.map((item, i) => (
+              <li>
+                <a
+                  href={`#${item.id}`}
+                  data-toc-link={item.id}
+                  class="text-tinta-suave hover:text-carbon -ml-0.5 block border-l-2 border-transparent py-1 pl-3.5 transition-colors"
+                >
+                  <span class="text-naranja/80 mr-1.5 font-semibold">{String(i + 1).padStart(2, "0")}</span>
+                  {item.titulo}
+                </a>
+              </li>
+            ))
+          }
+        </ol>
+      </nav>
+    </aside>
+
+    <div class="min-w-0">
+      <!-- Acerca de FeMax -->
+      <div class="doc-content border-borde bg-crema mb-8 rounded-2xl border px-6 py-6 sm:px-8">
+        <h2 class="text-verde-oscuro mb-3 text-xs font-bold tracking-wider uppercase">Acerca de FeMax</h2>
+        <p>
+          FeMax es una plataforma Software como Servicio (SaaS) orientada a la gestión empresarial y la
+          facturación electrónica, diseñada para centralizar y optimizar los procesos operativos de pequeñas,
+          medianas y grandes empresas. Permite administrar de manera integrada la información de la
+          organización, incluyendo empresas, sucursales, usuarios, roles y permisos, productos, categorías,
+          proveedores, compras, inventario, ventas mediante Punto de Venta (POS) y la emisión de comprobantes
+          de pago electrónicos conforme a la normativa vigente de la Superintendencia Nacional de Aduanas y de
+          Administración Tributaria (SUNAT).
+        </p>
+        <p class="mb-0!">
+          Como solución basada en la nube, FeMax proporciona acceso seguro desde cualquier ubicación con
+          conexión a Internet, ofreciendo infraestructura administrada, actualizaciones continuas, monitoreo
+          permanente, mecanismos de seguridad y disponibilidad del servicio, sin que el Cliente deba gestionar
+          servidores o instalaciones locales.
+        </p>
+      </div>
+
+      <!-- Índice (móvil) -->
+      <details class="border-borde mb-8 rounded-2xl border bg-white lg:hidden">
+        <summary
+          class="text-carbon cursor-pointer list-none px-6 py-4 text-sm font-bold [&::-webkit-details-marker]:hidden"
+        >
+          Índice del documento <span class="text-naranja float-right">▾</span>
+        </summary>
+        <ol class="border-borde border-t px-6 py-4 text-sm">
+          {
+            indice.map((item, i) => (
+              <li>
+                <a href={`#${item.id}`} class="text-tinta-suave hover:text-carbon block py-1.5">
+                  <span class="text-naranja mr-2 font-semibold">{String(i + 1).padStart(2, "0")}</span>
+                  {item.titulo}
+                </a>
+              </li>
+            ))
+          }
+        </ol>
+      </details>
+
+      <!-- 1. INTRODUCCION -->
+      <Seccion id="s1" numero="01" titulo="Introducción">
+        <p>
+          Bienvenido a FeMax. El presente documento (en adelante, los "Términos y Condiciones") tiene por
+          objeto establecer las condiciones bajo las cuales FEMAXX S.A.C., con nombre comercial FeMax (en
+          adelante, "FeMax"), pone a disposición de sus clientes su plataforma tecnológica de gestión
+          empresarial y facturación electrónica.
+        </p>
+        <p>
+          FEMAXX S.A.C. es una empresa peruana dedicada al desarrollo y provisión de soluciones tecnológicas
+          bajo el modelo Software como Servicio (SaaS), orientadas a facilitar la administración comercial,
+          operativa y tributaria de sus clientes.
+        </p>
+        <Callout>
+          Para efectos del presente documento, "FeMax" identifica indistintamente a la empresa proveedora del
+          Servicio, ya sea bajo su razón social (FEMAXX S.A.C.) o su nombre comercial (FeMax), y "el Cliente"
+          identifica a la persona natural o jurídica que contrata el Servicio. Ambos términos se emplean a lo
+          largo del documento según corresponda al contexto de cada sección.
+        </Callout>
+        <p>
+          La Plataforma permite, entre otras funciones, la administración de empresas, sucursales, usuarios,
+          inventario, compras, ventas mediante Punto de Venta (POS) y la emisión de comprobantes de pago
+          electrónicos conforme a la normativa de la SUNAT.
+        </p>
+        <p>
+          Este documento regula el acceso y uso del Servicio, los derechos y obligaciones de las partes, así
+          como el modelo de responsabilidad compartida entre FeMax y el Cliente. Aplica a toda persona natural
+          o jurídica que se registre, contrate o utilice la Plataforma, así como a los usuarios autorizados
+          por dicho Cliente.
+        </p>
+        <p>
+          Los presentes Términos y Condiciones entran en vigencia desde el 01/01/2027, y su aceptación es
+          requisito indispensable para acceder y utilizar el Servicio.
+        </p>
+      </Seccion>
+
+      <!-- 2. DEFINICIONES -->
+      <Seccion id="s2" numero="02" titulo="Definiciones">
+        <p>
+          Para efectos del presente documento, los siguientes términos tendrán el significado que se indica a
+          continuación:
+        </p>
+        <table>
+          <thead>
+            <tr><th class="w-[28%]">Término</th><th>Definición</th></tr>
+          </thead>
+          <tbody>
+            {
+              definiciones.map(([termino, definicion]) => (
+                <tr>
+                  <>
+                    <td class="font-semibold">{termino}</td>
+                    <td>{definicion}</td>
+                  </>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </Seccion>
+
+      <!-- 3. OBJETO DEL SERVICIO -->
+      <Seccion id="s3" numero="03" titulo="Objeto del Servicio">
+        <p>
+          FeMax ofrece una plataforma SaaS accesible a través de Internet, orientada a la gestión integral de
+          las operaciones comerciales y administrativas del Cliente. El Servicio comprende, entre otras, las
+          siguientes funcionalidades:
+        </p>
+        <ul>
+          <li>Gestión empresarial (empresas y sucursales).</li>
+          <li>Gestión de usuarios, roles y permisos.</li>
+          <li>Administración de inventario.</li>
+          <li>Gestión de compras y proveedores.</li>
+          <li>Punto de Venta (POS).</li>
+          <li>Facturación electrónica conforme a la normativa vigente.</li>
+          <li>Configuración de empresas y parámetros operativos.</li>
+          <li>Administración de sucursales y su información asociada.</li>
+        </ul>
+        <p>
+          Esta lista es enunciativa mas no taxativa. FeMax podrá incorporar nuevas funcionalidades, módulos o
+          servicios adicionales a la Plataforma a lo largo del tiempo, sin que ello requiera una modificación
+          sustancial del presente documento, salvo que dichas incorporaciones impliquen cambios relevantes en
+          las obligaciones de las partes.
+        </p>
+        <Callout>
+          FeMax es un servicio SaaS, es decir, no requiere instalación local, y se accede a él mediante
+          credenciales autorizadas a través de Internet, desde cualquier ubicación y en cualquier momento,
+          sujeto a la disponibilidad descrita en la Sección 8.
+        </Callout>
+      </Seccion>
+
+      <!-- 4. REGISTRO Y CREACION DE CUENTA -->
+      <Seccion id="s4" numero="04" titulo="Registro y Creación de Cuenta">
+        <p>
+          Para acceder al Servicio, el Cliente deberá completar el proceso de registro proporcionando
+          información veraz, exacta y actualizada. El incumplimiento de esta obligación podrá dar lugar a la
+          suspensión o cancelación de la cuenta.
+        </p>
+        <ul>
+          <li>
+            La persona que realiza el registro en representación de una empresa debe contar con las facultades
+            y autorización suficientes para contratar el Servicio en nombre de dicha empresa.
+          </li>
+          <li>
+            FeMax podrá solicitar documentación adicional que acredite la identidad del Cliente o de su
+            representante, así como la validez de la información registrada.
+          </li>
+          <li>
+            FeMax se reserva el derecho de aprobar o rechazar solicitudes de registro, a su entera discreción,
+            cuando existan indicios de información falsa, incompleta o fraudulenta.
+          </li>
+          <li>
+            La cuenta del Cliente se activará una vez concluido satisfactoriamente el proceso de alta y
+            confirmado el pago correspondiente al plan contratado.
+          </li>
+        </ul>
+      </Seccion>
+
+      <!-- 5. PLANES Y SUSCRIPCIONES -->
+      <Seccion id="s5" numero="05" titulo="Planes y Suscripciones">
+        <p>
+          FeMax ofrece distintos planes de suscripción, cada uno con características, límites y
+          funcionalidades diferenciadas, según se detalla a continuación:
+        </p>
+        <table>
+          <thead>
+            <tr><th class="w-[22%]">Plan</th><th>Características</th></tr>
+          </thead>
+          <tbody>
+            {
+              planes.map(([plan, caracteristicas]) => (
+                <tr>
+                  <>
+                    <td class="font-semibold">{plan}</td>
+                    <td>{caracteristicas}</td>
+                  </>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+        <p>
+          Las condiciones comerciales de cada plan, incluyendo precios y límites específicos, se encuentran
+          disponibles en la Plataforma o en la propuesta comercial correspondiente.
+        </p>
+        <ul>
+          <li>
+            <strong>Facturación mensual:</strong> el importe correspondiente se cobra de forma recurrente cada mes.
+          </li>
+          <li>
+            <strong>Facturación anual:</strong> el importe correspondiente se cobra de forma recurrente cada año,
+            pudiendo aplicar condiciones preferenciales.
+          </li>
+          <li>
+            <strong>Renovación:</strong> las suscripciones se renuevan automáticamente al vencimiento del periodo
+            contratado, salvo cancelación previa por parte del Cliente.
+          </li>
+          <li>
+            <strong>Suspensión:</strong> el Servicio podrá suspenderse ante la falta de pago u otros incumplimientos
+            previstos en este documento.
+          </li>
+          <li>
+            <strong>Cancelación:</strong> el Cliente podrá cancelar su suscripción conforme a los procedimientos
+            establecidos en la Sección 10. Adicionalmente a lo aquí establecido, resultarán aplicables las condiciones
+            de cancelación previstas en el contrato de servicio suscrito entre FeMax y el Cliente, cuyo incumplimiento
+            podría dar lugar a las penalidades o multas contractuales que en él se establezcan.
+          </li>
+        </ul>
+      </Seccion>
+
+      <!-- 6. MODELO DE RESPONSABILIDAD COMPARTIDA -->
+      <Seccion id="s6" numero="06" titulo="Modelo de Responsabilidad Compartida">
+        <p>
+          El uso seguro y correcto del Servicio depende de la actuación conjunta de FeMax y del Cliente. A
+          continuación, se detalla la distribución de responsabilidades entre ambas partes:
+        </p>
+        <table>
+          <thead>
+            <tr><th class="w-1/2">FEMAXX S.A.C.</th><th>Cliente</th></tr>
+          </thead>
+          <tbody>
+            {
+              responsabilidades.map(([femax, cliente]) => (
+                <tr>
+                  <>
+                    <td>{femax}</td>
+                    <td>{cliente}</td>
+                  </>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+        <Callout color="verde">
+          Ambas partes reconocen que la seguridad del servicio depende de las responsabilidades asumidas por
+          cada una, de conformidad con la distribución establecida en esta sección y con el detalle ampliado
+          en el{" "}
+          <a href="/anexo-i-modelo-responsabilidad-compartida" class="link-anexo"
+            >Anexo I (Modelo de Responsabilidad Compartida)</a
+          >.
+        </Callout>
+      </Seccion>
+
+      <!-- 7. SEGURIDAD DE LA INFORMACION -->
+      <Seccion id="s7" numero="07" titulo="Seguridad de la Información">
+        <SubTag>Medidas implementadas por FeMax</SubTag>
+        <ul>
+          <li>Conexión cifrada mediante protocolo HTTPS.</li>
+          <li>Cifrado de contraseñas de los usuarios.</li>
+          <li>Mecanismos de control de acceso a la Plataforma.</li>
+          <li>Auditoría de las actividades realizadas en el sistema.</li>
+          <li>Copias de seguridad (backups) periódicas de la información.</li>
+          <li>Registro de eventos (logs) del sistema.</li>
+          <li>Monitoreo continuo de la infraestructura y del Servicio.</li>
+        </ul>
+        <SubTag>Obligaciones del Cliente</SubTag>
+        <ul>
+          <li>No compartir sus contraseñas ni las de los usuarios autorizados.</li>
+          <li>Utilizar equipos y conexiones seguras para acceder a la Plataforma.</li>
+          <li>Administrar correctamente a sus usuarios, roles y permisos dentro del sistema.</li>
+          <li>
+            Reportar a FeMax, de manera inmediata, cualquier actividad sospechosa o uso no autorizado que
+            detecte en su cuenta.
+          </li>
+          <li>Mantener actualizada la información de contacto de sus usuarios administradores.</li>
+          <li>
+            Retirar oportunamente los accesos de los usuarios que dejen de estar autorizados por el Cliente
+            (por ejemplo, trabajadores que ya no formen parte de la organización).
+          </li>
+        </ul>
+      </Seccion>
+
+      <!-- 8. DISPONIBILIDAD DEL SERVICIO -->
+      <Seccion id="s8" numero="08" titulo="Disponibilidad del Servicio">
+        <p>
+          FeMax realizará esfuerzos razonables para mantener la continuidad del Servicio, procurando una
+          disponibilidad mensual mínima del noventa y nueve por ciento (99%), sin considerar las ventanas de
+          mantenimiento programado ni los eventos fuera de su control razonable descritos en esta sección. El
+          detalle de los niveles de servicio se encuentra en el <a
+            href="/anexo-ii-niveles-servicio-sla"
+            class="link-anexo">Anexo II (Niveles de Servicio - SLA)</a
+          >.
+        </p>
+        <ul>
+          <li>
+            <strong>Disponibilidad esperada:</strong> FeMax procurará mantener un nivel de disponibilidad mensual
+            mínimo del 99% para el uso normal del Servicio.
+          </li>
+          <li>
+            <strong>Mantenimientos programados:</strong> podrán realizarse labores de mantenimiento preventivo o
+            correctivo, siendo comunicadas al Cliente con antelación razonable cuando sea posible.
+          </li>
+          <li>
+            <strong>Ventanas de mantenimiento:</strong> se procurará que estas se ejecuten en horarios de menor
+            impacto para los Clientes.
+          </li>
+          <li>
+            <strong>Casos fortuitos o de fuerza mayor:</strong> FeMax no será responsable por interrupciones del
+            Servicio derivadas de eventos fuera de su control razonable, tales como fallas de proveedores de internet,
+            energía eléctrica, desastres naturales, entre otros.
+          </li>
+          <li>
+            <strong>Intermitencias ajenas al Servicio:</strong> las intermitencias, caídas o interrupciones atribuibles
+            a la SUNAT, al OSE o al PSE utilizado para el envío y validación de comprobantes electrónicos son ajenas
+            al Servicio prestado por FeMax y no serán consideradas como indisponibilidad de la Plataforma.
+          </li>
+        </ul>
+      </Seccion>
+
+      <!-- 9. FACTURACION ELECTRONICA -->
+      <Seccion id="s9" numero="09" titulo="Facturación Electrónica">
+        <p>
+          La Plataforma pone a disposición del Cliente herramientas para la emisión de comprobantes de pago
+          electrónicos. Para ello, el Cliente contrata directamente a un Proveedor de Servicios Electrónicos
+          (PSE) de su elección, siendo responsabilidad de FeMax, previa coordinación y evaluación técnica con
+          el Cliente, adaptar la Plataforma para que sea compatible con dicho PSE. El proceso general es el
+          siguiente:
+        </p>
+        <ul>
+          <li>
+            La Plataforma envía la información del comprobante de pago al PSE contratado por el Cliente.
+          </li>
+          <li>
+            El PSE genera el archivo XML correspondiente, cuando corresponda según el esquema técnico
+            empleado, y lo envía a la SUNAT para su validación, de forma directa o, cuando corresponda, a
+            través de un OSE.
+          </li>
+          <li>Se obtiene la Constancia de Recepción (CDR) una vez validado el comprobante.</li>
+          <li>La Plataforma almacena los comprobantes emitidos para consulta del Cliente.</li>
+        </ul>
+        <p>
+          En caso FeMax llegue a operar directamente como PSE, canalizando el envío a través de un OSE,
+          resultará aplicable el mismo esquema de responsabilidades descrito en esta sección, en lo que
+          corresponda.
+        </p>
+        <Callout>
+          No obstante, la responsabilidad sobre la exactitud de los montos, impuestos, información de los
+          clientes, productos e información tributaria consignada en los comprobantes es exclusiva del
+          Cliente, quien deberá verificar dicha información antes de su emisión.
+        </Callout>
+        <p>
+          El tiempo durante el cual los comprobantes emitidos permanecerán disponibles en la Plataforma, así
+          como las condiciones de respaldo y conservación de dicha información, se detallan en el{" "}
+          <a href="/anexo-iv-politica-respaldo-conservacion" class="link-anexo"
+            >Anexo IV (Política de Respaldo y Conservación de Información)</a
+          >.
+        </p>
+      </Seccion>
+
+      <!-- 10. PAGOS, SUSPENSION Y CANCELACION -->
+      <Seccion id="s10" numero="10" titulo="Pagos, Suspensión y Cancelación">
+        <ul>
+          <li>
+            <strong>Pagos:</strong> el Cliente deberá efectuar el pago de la Suscripción conforme a las condiciones,
+            plazos y medios de pago informados por FeMax.
+          </li>
+          <li>
+            <strong>Renovaciones:</strong> las suscripciones se renuevan automáticamente al finalizar el periodo
+            contratado, salvo que el Cliente solicite su cancelación con la antelación establecida.
+          </li>
+          <li>
+            <strong>Suspensión por falta de pago:</strong> el incumplimiento en el pago de la Suscripción podrá
+            dar lugar a la suspensión temporal del acceso al Servicio, previa comunicación al Cliente.
+          </li>
+          <li>
+            <strong>Reactivación:</strong> una vez regularizado el pago pendiente, FeMax procederá a restablecer
+            el acceso al Servicio en un plazo razonable. La reactivación del Servicio tras una suspensión por falta
+            de pago podrá estar sujeta al cobro de un cargo adicional por reconexión, conforme a las condiciones
+            comerciales vigentes.
+          </li>
+          <li>
+            <strong>Cancelación voluntaria:</strong> el Cliente podrá solicitar la cancelación de su Suscripción
+            conforme a lo establecido en el contrato suscrito con FeMax una vez haya sido dado de alta en la Plataforma,
+            sin perjuicio de los pagos ya devengados.
+          </li>
+        </ul>
+      </Seccion>
+
+      <!-- 11. PROPIEDAD INTELECTUAL -->
+      <Seccion id="s11" numero="11" titulo="Propiedad Intelectual">
+        <p>
+          La Plataforma SaaS, su arquitectura, código fuente, interfaces, componentes, bases de datos,
+          documentación técnica, diseños, logotipos y demás elementos asociados son de propiedad exclusiva de
+          FEMAXX S.A.C.
+        </p>
+        <p>
+          La firma del contrato y el pago de la suscripción únicamente otorgan al Cliente un derecho de uso
+          temporal, limitado, no exclusivo e intransferible de la Plataforma.
+        </p>
+        <SubTag>Queda expresamente prohibido</SubTag>
+        <ul>
+          <li>Copiar la Plataforma o sus componentes.</li>
+          <li>Modificar el código fuente o los elementos de la Plataforma.</li>
+          <li>Revender el acceso a la Plataforma a terceros sin autorización.</li>
+          <li>Distribuir la Plataforma o partes de ella.</li>
+          <li>Descompilar el software.</li>
+          <li>Realizar ingeniería inversa sobre la Plataforma.</li>
+          <li>
+            Ejecutar cualquier acción que atente contra la disponibilidad de la Plataforma o que ponga en
+            riesgo su seguridad o funcionamiento. De verificarse una conducta de este tipo, FeMax evaluará la
+            continuidad del Cliente en la Plataforma, conforme a lo señalado en el{" "}
+            <a href="/anexo-iii-politica-uso-aceptable" class="link-anexo"
+              >Anexo III (Política de Uso Aceptable)</a
+            >.
+          </li>
+        </ul>
+      </Seccion>
+
+      <!-- 12. PROTECCION DE DATOS PERSONALES -->
+      <Seccion id="s12" numero="12" titulo="Protección de Datos Personales">
+        <SubTag>FeMax</SubTag>
+        <ul>
+          <li>Almacena los datos registrados por el Cliente en la Plataforma.</li>
+          <li>Protege dichos datos mediante medidas técnicas y organizativas razonables.</li>
+          <li>Procesa los datos únicamente para los fines relacionados con la prestación del Servicio.</li>
+        </ul>
+        <SubTag>Cliente</SubTag>
+        <ul>
+          <li>Autoriza el tratamiento de los datos personales que registre en la Plataforma.</li>
+          <li>
+            Garantiza contar con la autorización correspondiente para registrar los datos personales de sus
+            trabajadores y clientes, cuando ello resulte aplicable.
+          </li>
+        </ul>
+        <p>
+          El tratamiento de datos personales se realizará conforme a la legislación peruana aplicable sobre
+          protección de datos personales.
+        </p>
+      </Seccion>
+
+      <!-- 13. LIMITACION DE RESPONSABILIDAD -->
+      <Seccion id="s13" numero="13" titulo="Limitación de Responsabilidad">
+        <p>
+          FeMax no será responsable frente al Cliente ni frente a terceros por los daños y perjuicios que
+          pudieran derivarse de las siguientes circunstancias:
+        </p>
+        <ul>
+          <li>Errores de digitación cometidos por los usuarios del Cliente.</li>
+          <li>Eliminación de información realizada por usuarios del Cliente.</li>
+          <li>Uso indebido de las cuentas por parte de los usuarios del Cliente.</li>
+          <li>Incumplimiento de obligaciones tributarias por parte del Cliente.</li>
+          <li>Pérdida de acceso a la cuenta derivada del uso compartido de contraseñas.</li>
+          <li>Suspensión del Servicio por falta de pago, conforme a lo establecido en este documento.</li>
+        </ul>
+      </Seccion>
+
+      <!-- 14. MODIFICACIONES DE LOS TERMINOS -->
+      <Seccion id="s14" numero="14" titulo="Modificaciones de los Términos">
+        <p>
+          FeMax podrá actualizar o modificar los presentes Términos y Condiciones en cualquier momento, con el
+          fin de reflejar cambios normativos, funcionales o comerciales del Servicio.
+        </p>
+        <p>
+          Toda modificación será notificada al Cliente a través de los canales de comunicación habituales o
+          mediante avisos en la propia Plataforma.
+        </p>
+        <p>
+          Las nuevas versiones de este documento reemplazarán a las anteriores desde su fecha de publicación,
+          y el uso continuado del Servicio por parte del Cliente implicará la aceptación de dichas
+          modificaciones.
+        </p>
+      </Seccion>
+
+      <!-- 15. LEGISLACION APLICABLE -->
+      <Seccion id="s15" numero="15" titulo="Legislación Aplicable">
+        <p>El presente contrato se rige por:</p>
+        <ul>
+          <li>La Constitución Política del Perú.</li>
+          <li>El Código Civil Peruano.</li>
+          <li>
+            La normativa tributaria emitida por la SUNAT aplicable a los comprobantes de pago electrónicos.
+          </li>
+          <li>
+            Las disposiciones vigentes relacionadas con los Operadores de Servicios Electrónicos (OSE), cuando
+            resulten aplicables.
+          </li>
+          <li>La normativa peruana sobre protección de datos personales.</li>
+        </ul>
+        <Callout>
+          Cualquier controversia derivada del presente documento será sometida, en primera instancia, a un
+          proceso de negociación entre las partes. De no alcanzarse un acuerdo, será resuelta por las
+          autoridades jurisdiccionales competentes de la República del Perú, salvo pacto distinto entre las
+          partes.
+        </Callout>
+      </Seccion>
+
+      <!-- 16. CONTACTO -->
+      <Seccion id="s16" numero="16" titulo="Contacto">
+        <p>
+          Para consultas relacionadas con el Servicio, la facturación o los presentes Términos y Condiciones,
+          el Cliente podrá comunicarse con FEMAXX S.A.C. a través de los siguientes canales:
+        </p>
+        <div class="grid gap-3 sm:grid-cols-2">
+          {
+            contacto.map(([canal, detalle]) => (
+              <div class="border-borde rounded-xl border bg-white px-4 py-3">
+                <p class="text-tinta-suave mb-0.5! text-xs font-bold tracking-wide uppercase">{canal}</p>
+                <p class="text-carbon mb-0! font-medium">{detalle}</p>
+              </div>
+            ))
+          }
+        </div>
+      </Seccion>
+
+      <!-- 17. DOCUMENTOS REFERENCIADOS -->
+      <section id="s17" data-seccion class="py-10">
+        <div class="doc-content">
+          <div class="mb-5 flex items-baseline gap-3.5">
+            <span
+              class="from-naranja to-naranja-oscuro bg-gradient-to-br bg-clip-text text-3xl font-extrabold text-transparent"
+              >17</span
+            >
+            <h2 class="text-carbon text-[1.55rem] leading-tight font-bold">Documentos Referenciados</h2>
+          </div>
+          <p>
+            Los siguientes anexos forman parte integrante del presente Acuerdo de Uso del Servicio SaaS y
+            desarrollan con mayor detalle algunos de los puntos referidos en el cuerpo del documento:
+          </p>
+          <div class="mt-5 grid gap-4 sm:grid-cols-2">
+            {
+              anexos.map((a) => (
+                <a
+                  href={a.href}
+                  class="group border-borde hover:border-verde hover:shadow-verde/10 flex flex-col gap-2 rounded-2xl border bg-white p-5 transition-all hover:-translate-y-0.5 hover:shadow-lg"
+                >
+                  <span class="bg-verde self-start rounded-full px-2.5 py-1 text-[0.7rem] font-bold tracking-wide text-white">
+                    {a.badge}
+                  </span>
+                  <span class="text-carbon group-hover:text-verde-oscuro leading-snug font-bold">
+                    {a.nombre}
+                  </span>
+                  <span class="text-tinta-suave text-sm">{a.detalle}</span>
+                  <span class="text-naranja-oscuro mt-1 inline-flex items-center gap-1.5 text-sm font-semibold">
+                    Leer anexo
+                    <svg
+                      class="h-3.5 w-3.5 transition-transform group-hover:translate-x-1"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      stroke-width="2.5"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"
+                      />
+                    </svg>
+                  </span>
+                </a>
+              ))
+            }
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <script>
+    // Resalta en el índice lateral la sección visible al hacer scroll
+    const enlaces = new Map(
+      [...document.querySelectorAll<HTMLAnchorElement>("[data-toc-link]")].map((a) => [
+        a.dataset.tocLink!,
+        a,
+      ]),
+    );
+    const activas = new Set<string>();
+    const activar = () => {
+      enlaces.forEach((a) => a.classList.remove("border-naranja", "text-carbon", "font-semibold"));
+      const primera = [...document.querySelectorAll<HTMLElement>("[data-seccion]")].find((s) =>
+        activas.has(s.id),
+      );
+      if (primera) enlaces.get(primera.id)?.classList.add("border-naranja", "text-carbon", "font-semibold");
+    };
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) e.isIntersecting ? activas.add(e.target.id) : activas.delete(e.target.id);
+        activar();
+      },
+      { rootMargin: "-15% 0px -60% 0px" },
+    );
+    document.querySelectorAll("[data-seccion]").forEach((s) => observer.observe(s));
+  </script>
+</BaseLayout>

@@ -1,0 +1,18 @@
+---
+/** Banda oscura con acentos difuminados de la marca, compartida por landing y páginas legales. */
+interface Props {
+  contenedor?: string;
+}
+
+const { contenedor = "max-w-6xl px-5 py-16" } = Astro.props;
+---
+
+<section class="bg-carbon relative overflow-hidden text-white">
+  <div class="pointer-events-none absolute inset-0">
+    <div class="bg-naranja/20 absolute -top-32 -right-32 h-96 w-96 rounded-full blur-3xl"></div>
+    <div class="bg-verde/15 absolute -bottom-40 -left-20 h-96 w-96 rounded-full blur-3xl"></div>
+  </div>
+  <div class:list={["relative mx-auto", contenedor]}>
+    <slot />
+  </div>
+</section>
